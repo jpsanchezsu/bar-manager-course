@@ -2,34 +2,42 @@
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        int ron = 30; //ml
-        double ronPrecioMl = 80; //Cada ml de ron
-        int azucar = 60; //gr
-        double azucarPrecio = 3.20; //Precio en pesos
-        int limon = 1; //Por unidades
-        double limonPrecio = 800; //precio en pesos colombianos
-        int hierbabuena = 12; //Hojas de hierbabuena
-        double hierPrecio = 60; //Precio x Hoja
-        int soda = 150; //ml
-        double sodaPrecio = 8.30; // Precio x ml
-        double costoRon = ron*ronPrecioMl;
-        double costoAzucar = azucar*azucarPrecio;
-        double costoLimon = limon*limonPrecio;
-        double costoHierbabuena = hierbabuena*hierPrecio;
-        double costoSoda = soda*sodaPrecio;
-        double costoTotal = costoAzucar+costoHierbabuena+costoSoda+costoLimon+costoRon;
-        final double umbralCostoElevado = 6000; // final es constante (no se puede modificar)
-        System.out.printf("Costo ron: %.2f%n",costoRon);
-        System.out.printf("Costo azucar: %.2f%n",costoAzucar);
-        System.out.printf("Costo limon: %.2f%n",costoLimon);
-        System.out.printf("Costo hierbabuena: %.2f%n",costoHierbabuena);
-        System.out.printf("Costo soda: %.2f%n",costoSoda);
+        String[] ingredientes = {"Ron", "Azucar", "limon", "Hierbabuena", "Soda"}; //Ingredientes de un mojito
+        double[] precios = {80,3.20,800,60,8.30}; //Precio por unidad
+        double[] cantidades = {30,60,1,12,150};
+        final double umbral = 6000;
+        double [] costos = calcularCostos(cantidades,precios);
+        imprimirDetalle(ingredientes,costos);
+        double total = calcularTotal(costos);
 
-        // Costo final de la receta
-        System.out.printf("el costo del coctel es %.2f%n", costoTotal);
+        if (total>umbral){
+            System.out.printf("El costo del coctel es muy elevado, revisar receta %n");
+        }
+        System.out.printf("El costo total del coctel es: %.2f%n", total);
+    }
 
-        if (costoTotal > umbralCostoElevado){
-            System.out.println("Costo elevado, revisar receta");
+    //SOLUCION PRIMER PUNTO
+    static double[] calcularCostos (double[] cantidades, double[] precios){
+        double [] resultado = new double [cantidades.length]; //Crea un array de longitud cantidades
+        for (int i=0; i<cantidades.length; i++){
+            resultado[i] = precios[i]*cantidades[i]; //operaciones calcular costo
+        }
+        return resultado; //retorna una lista de costo por ingrediente
+    }
+
+    //SOLUCION SEGUNDO PUNTO
+    static double calcularTotal (double[] costo){
+        double resultado = 0;//DECLARACION DEL RESULTADO
+        for (int i=0; i<costo.length; i++){
+            resultado += costo[i];//FOR PARA SUMAR TODOS LOS DATOS DE LA LISTA
+        }
+        return resultado;//RETORNA SUMA TOTAL DE LA LISTA
+    }
+
+    //SOLUCION PUNTO TRES
+    static  void imprimirDetalle(String[] ingredientes, double[] costos){
+        for (int i=0; i< ingredientes.length; i++){
+            System.out.printf("%s: %.2f%n", ingredientes[i], costos[i]); //IMPRIME INGREDIENTE Y COSTO DE CADA UNO
         }
     }
 }
