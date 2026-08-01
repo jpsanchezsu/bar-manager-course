@@ -1,18 +1,31 @@
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
         String[] ingredientes = {"Ron", "Azucar", "limon", "Hierbabuena", "Soda"}; //Ingredientes de un mojito
         double[] precios = {80,3.20,800,60,8.30}; //Precio por unidad
-        double[] cantidades = {30,60,1,12,150};
+        double[] cantidades = new double[ingredientes.length];
         final double umbral = 6000;
+        boolean stockCantidades = true;
+        for (int i=0;i<ingredientes.length; i++){
+            System.out.printf("Ingresa la cantidad de %s: ", ingredientes[i]);
+            cantidades[i] = sc.nextDouble();
+            if (cantidades[i] == 0){
+                stockCantidades = false;
+            }
+        }
         double [] costos = calcularCostos(cantidades,precios);
         imprimirDetalle(ingredientes,costos);
         double total = calcularTotal(costos);
 
-        if (total>umbral){
-            System.out.printf("El costo del coctel es muy elevado, revisar receta %n");
+        if (total>umbral && !stockCantidades){
+            System.out.printf("Revisar la receta, hay ingredientes en cero y el costo es alto %n");
+        } else if (total>umbral) {
+            System.out.printf("Costo del coctel es elevado %n");
         }
+
         System.out.printf("El costo total del coctel es: %.2f%n", total);
     }
 
